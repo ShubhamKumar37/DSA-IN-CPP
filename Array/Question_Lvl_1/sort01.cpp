@@ -48,14 +48,26 @@ void sort01Method3(int arr[], int length)
     }
 }
 
+void sort0sand1s(int input[], int size){
+	int nextZero = 0;
+	for(int i=0; i<size; i++){
+		if(input[i] == 0){
+			int temp = input[nextZero];
+			input[nextZero++] = input[i];
+			input[i] = temp;
+		}
+	}
+}
+
 int main()
 {
-    int arr[] = {0, 1, 0, 1, 0, 1, 1, 1, 0};
+    int arr[] = {1, 0, 1, 0, 1, 0, 1, 1, 1, 0};
     int length = sizeof(arr) / sizeof(int);
 
     // sort01Method1(arr, length);
-    sort01Method2(arr, length);
+    // sort01Method2(arr, length);
     // sort01Method3(arr, length);
+    sort0sand1s(arr, length);
 
 
     for (int i = 0; i < length; i++)
