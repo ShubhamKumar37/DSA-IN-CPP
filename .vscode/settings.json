@@ -6,7 +6,8 @@
         "xlocale": "cpp",
         "xstring": "cpp",
         "vector": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "LIMITS.H": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
