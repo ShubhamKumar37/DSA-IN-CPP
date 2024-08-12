@@ -7,7 +7,8 @@
         "xstring": "cpp",
         "vector": "cpp",
         "algorithm": "cpp",
-        "LIMITS.H": "cpp"
+        "LIMITS.H": "cpp",
+        "list": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

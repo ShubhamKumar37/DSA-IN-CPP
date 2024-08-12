@@ -1,10 +1,14 @@
-#include<IOSTREAM>
-#include<VECTOR>
+#include <IOSTREAM>
+#include <VECTOR>
 
 using namespace std;
- 
+
 int main()
 {
+
+    vector<vector<int>> matrix(3, vector<int>(4, 3));
+    // 2D vector with 3 rows and 4 cols where each cell is initialized with 3
+
     vector<int> arr1; // This refers to creating a container with 0 size
 
     arr1.push_back(10);
@@ -14,15 +18,29 @@ int main()
     // arr1.push_back(20);
     // arr1.push_back(30);
     // arr1.push_back(40);
-    // arr1.push_back(50);
-    // arr1.push_back(30);
-    // arr1.push_back(40);
-    // arr1.push_back(50);
-    // arr1.push_back(50);
+    arr1.push_back(50);
+    arr1.push_back(30);
+    arr1.push_back(40);
+    arr1.push_back(50);
+    arr1.push_back(50);
+
+    vector<int>::iterator it = arr1.begin();
+
+    while (it != arr1.end())
+    {
+        cout << *it++ << " ";
+    }
+    cout << endl;
 
     arr1.reserve(100); // Set the capacity directly to 100
 
     cout << arr1.max_size() << endl; // Maximum size that can vector take
+
+    for (int i : arr1) // For each loop
+    {
+        cout << i << " ";
+    }
+    cout << endl;
 
     cout << "Size = " << arr1.size() << endl;
     arr1.pop_back();
@@ -35,15 +53,12 @@ int main()
     cout << arr1.front() << endl;
     cout << arr1.back() << endl;
     cout << arr1.empty() << endl;
-    
+
     // vector<int> arr2(10); // This refers to creating a container with 10 size of blocks initialized by 0 by default
 
-
     // vector<int> arr3(10, 2); // Same as above just all blocks are intialized by 2
-    
+
     // cout << *(arr3.begin()) << endl; // It return the iterator pointing to the first block of vector
-
-
 
     return 0;
 }
