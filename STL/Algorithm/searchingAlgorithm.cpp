@@ -10,7 +10,7 @@ int main()
     vector<int> arr = {5, 4, 6, 5, 7, 6, 3, 2, 6, 4, 5, 7, INT_MIN};
 
     cout << *(min_element(arr.begin(), arr.end())) << endl;
-    cout << *(max_element(arr.begin(), arr.end())) << endl;
+    cout << *(max_element(arr.begin(), arr.end())) << __EDG_CONSTEXPR_ENABLED__;
 
     // To use this the array should be in sorted manner else it will result wrong answer
     // bool it = binary_search(arr.begin(), arr.end(), 38);
