@@ -28,7 +28,7 @@ int main()
     cout << endl;
 
     // Left side will be those who follow the function and vice versa
-    auto it = partition(arr.begin(), arr.end(), ifEven); 
+    auto it = partition(arr.begin(), arr.end(), ifEven);
 
     // auto it = unique(arr.begin(), arr.end());
     // arr.erase(it, arr.end());

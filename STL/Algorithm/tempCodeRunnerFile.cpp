@@ -1,2 +1,1 @@
-t << i << " ";
-    cout << endl;
+it.first
