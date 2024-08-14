@@ -8,7 +8,10 @@
         "vector": "cpp",
         "algorithm": "cpp",
         "LIMITS.H": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "set": "cpp",
+        "map": "cpp",
+        "xtree": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
