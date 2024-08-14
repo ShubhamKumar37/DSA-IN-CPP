@@ -1,1 +1,4 @@
-it.first
+for(auto i : arr){
+        cout << i << " ";
+    }
+    
