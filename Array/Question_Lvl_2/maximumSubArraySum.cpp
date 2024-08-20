@@ -28,19 +28,12 @@ int findMaxSubArraySum_Kaden_Algo(vector<int> &arr, int length)
     // and at the same condition calculate the maxSum because may be all elements are -ve so the -1 will
     // be the maximum sub array sum.
 
-    int i = 0, j = 0, maxSum = INT_MIN, temp = 0;
-
-    while (j < length)
-    {
-        temp += arr[j++];
+    int maxSum = INT_MIN, temp = 0;
+    for(int i = 0; i < length; i++){
+        temp += arr[i];
         maxSum = max(maxSum, temp);
 
-        if (temp < 0)
-        {
-            j++;
-            i = j;
-            temp = 0;
-        }
+        if(temp < 0) temp = 0;
     }
 
     return maxSum;
@@ -48,7 +41,7 @@ int findMaxSubArraySum_Kaden_Algo(vector<int> &arr, int length)
 
 int main()
 {
-    vector<int> arr = {0, -1};
+    vector<int> arr = {0, -1, -4, 2, 5, 3, -2, -5, 3, 2};
     int length = arr.size();
 
     cout << "Maximum subarray sum is " << findMaximumSubArraySum1(arr, length) << endl;
