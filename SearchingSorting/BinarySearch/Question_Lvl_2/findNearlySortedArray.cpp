@@ -24,10 +24,12 @@ int findElement(vector<int> &arr,int length, int target)
         }
         else if(arr[mid] < target)
         {
+            // s = mid + 1; Both are valid
             s = mid + 2;
         }
         else 
         {
+            // e = mid - 1; Both are valid
             e = mid - 2;
         }
 
