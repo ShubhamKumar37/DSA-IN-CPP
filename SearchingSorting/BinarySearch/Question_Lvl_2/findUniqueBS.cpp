@@ -7,59 +7,52 @@ int findElement(vector<int> &arr, int length)
 {
     int s = 0, e = length - 1;
     int mid = s + ((e - s) >> 1);
-    int ans = -1;
 
-    while (s <= e)
+    while (s < e)
     {
-        cout << "mid = " << mid << endl;
-        cout << "arr[mid] = " << arr[mid] << endl;
-        cout << "s = " << s << endl;
-        cout << "e = " << e << endl
-             << endl;
-
         if(mid & 1 == 1)
         {
             // Odd
-            if(arr[mid] == arr[mid + 1])
+            if(mid + 1 < length && arr[mid] == arr[mid + 1])
             {
-                s = mid + 1;
+                e = mid;
             }
             else
             {
-                ans = mid + 1;
-                // cout << "ans = " << ans << endl;
-                e = mid - 1;
+                s = mid + 1;
             }
         }
-        else 
+        else
         {
             // Even
-            if(arr[mid] == arr[mid + 1])
+            if(mid + 1 < length && arr[mid] != arr[mid + 1])
+            {
+                e = mid;
+            }
+            else
             {
                 s = mid + 1;
             }
-            else 
-            {
-                ans = mid;
-                // cout << "ans = " << ans << endl;
-                e = mid - 1;
-            }
         }
 
-        // cout << "ans = " << ans << endl;
         mid = s + ((e - s) >> 1);
     }
 
-    return ans;
+    return mid;
 }
 
 int main()
 {
-    vector<int> arr = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 5, 5, 7, 7, 8, 8, 9};
+    // vector<int> arr = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 5, 5, 7, 7, 8, 8, 9};
+    // vector<int> arr = {1, 1, 2, 3, 3, 4, 4, 5, 5};
+    // vector<int> arr = {1, 1, 2, 2, 3, 3, 4, 4, 5};
+    // vector<int> arr = {1, 2, 2, 3, 3, 4, 4, 5, 5};
+    // vector<int> arr = {-1, -2, -2, -3, -3};
+    vector<int> arr = {1,1,2,3,3,4,4,8,8};
     int length = arr.size();
     int index = findElement(arr, length);
 
-    cout << "Unique element is " << (index == -1 ? -1 : index) << endl;
+    cout << "Unique element index is " << index << endl;
 
     return 0;
 }
