@@ -72,6 +72,7 @@ int main()
     cin >> num;
 
     cout << "Square root of num (approx.) is " << findSquareRoot(num) << endl;
+    printf("%.10d", findSquareRoot(num));
 
     
     return 0;
