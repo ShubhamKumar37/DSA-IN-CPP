@@ -1,10 +1,10 @@
-#include<iostream>
+#include <iostream>
 
 using namespace std;
 
 int findSquareRoot(int num)
 {
-    if(num == 0)
+    if (num == 0)
     {
         return 0;
     }
@@ -13,16 +13,16 @@ int findSquareRoot(int num)
     long long int mid = s + ((e - s) >> 1);
     int ans = 0;
 
-    while(s <= e)
+    while (s <= e)
     {
         long long int square = mid * mid;
 
-        if(square == num)
+        if (square == num)
         {
             ans = mid;
             break;
         }
-        else if(square < num)
+        else if (square < num)
         {
             ans = mid;
             s = mid + 1;
@@ -40,12 +40,11 @@ int findSquareRoot(int num)
 
 int main()
 {
-    int num; 
+    int num;
     cout << "Enter the value of num = ";
     cin >> num;
 
     cout << "Square root of num (approx.) is " << findSquareRoot(num) << endl;
 
-    
     return 0;
 }
