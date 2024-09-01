@@ -2,7 +2,32 @@
 
 using namespace std;
 
-int findSquareRoot(int num)
+double findPrecised(double num, int target)
+{
+    int prec = 0;
+    double dec = 1;
+    cout << "Enter the precision = ";
+    cin >> prec;
+
+    for(int i = 0; i < prec; i++)
+    {
+        dec = dec * 10;
+        double iPrec = num;
+        for(int j = 0; j < 10; j++)
+        {
+            double tempAns = iPrec + (j / dec);
+            if(tempAns * tempAns <= target)
+            {
+                num = tempAns;
+            }
+        }
+    }
+
+    return num;
+
+}
+
+double findSquareRoot(int num)
 {
     if (num == 0)
     {
@@ -35,7 +60,9 @@ int findSquareRoot(int num)
         mid = s + ((e - s) >> 1);
     }
 
-    return ans;
+    // double precisedAns = (double)ans;
+    return findPrecised((double)ans, num);
+
 }
 
 int main()
@@ -45,6 +72,7 @@ int main()
     cin >> num;
 
     cout << "Square root of num (approx.) is " << findSquareRoot(num) << endl;
+    printf("%.10d", findSquareRoot(num));
 
     return 0;
 }
