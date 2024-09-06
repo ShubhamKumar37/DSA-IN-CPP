@@ -12,7 +12,8 @@
         "set": "cpp",
         "map": "cpp",
         "xtree": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "istream": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
