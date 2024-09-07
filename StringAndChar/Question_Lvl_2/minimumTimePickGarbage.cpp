@@ -18,7 +18,44 @@ void findLastOccurance(vector<string> &garbage, unordered_map<char, int> &map)
         }
     }
 }
-int findMinTime(vector<string> &garbage, vector<int> &time)
+
+void findOccurance(vector<string> &garbage, vector<int> &PGM, unordered_map<char, int> &map)
+{
+    for(int i = 0; i < garbage.size(); i++)
+    {
+        for(auto j : garbage[i]){
+            if(j == 'P') PGM[0]++;
+            else if(j == 'G') PGM[1]++;
+            else if(j == 'M') PGM[2]++;
+
+            map[j] = i;
+        }
+    }
+}
+
+int findMinTime2(vector<string> &garbage, vector<int> &time)
+{ 
+    int ans = 0;
+    vector<int> PGM(3, 0);
+    unordered_map<char, int> map;
+
+    findOccurance(garbage, PGM, map);
+
+    for(int i = 1; i < time.size(); i++) time[i] += time[i - 1];
+
+    for(auto i : map)
+    {
+        int travel = i.second - 1 < 0 ? 0 : time[i.second - 1];
+        
+        if(i.first == 'P') ans += PGM[0] + travel;
+        else if(i.first == 'G') ans += PGM[1] + travel;
+        else if(i.first == 'M') ans += PGM[2] + travel;
+    }
+
+    return ans;
+}
+
+int findMinTime1(vector<string> &garbage, vector<int> &time)
 {
     int ans = 0;
 
@@ -61,7 +98,8 @@ int main()
     }
 
 
-    cout << "Minimum time required to pick all the garbage = " << findMinTime(v, t) << endl;
+    // cout << "Minimum time required to pick all the garbage = " << findMinTime1(v, t) << endl;
+    cout << "Minimum time required to pick all the garbage = " << findMinTime2(v, t) << endl;
 
 
     return 0;
