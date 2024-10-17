@@ -33,6 +33,7 @@ void getPermutation(string &str, int index)
 
     for(int i = index; i < str.size(); i++)
     {
+        if(i != index && str[i] == str[index]) continue; // Add this to make sure no duplicate only if the original is already sorted
         swap(str[i], str[index]);
         getPermutation(str, index + 1);
         swap(str[i], str[index]);
@@ -41,7 +42,7 @@ void getPermutation(string &str, int index)
 
 int main()
 {
-    string str = "abcd";
+    string str = "aab";
 
     getPermutation(str, 0);
 
