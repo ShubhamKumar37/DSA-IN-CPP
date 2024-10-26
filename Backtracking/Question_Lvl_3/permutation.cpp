@@ -1,5 +1,6 @@
 #include<IOSTREAM>
 #include<STRING>
+#include<unordered_map>
 
 using namespace std;
 
@@ -31,9 +32,12 @@ void getPermutation(string &str, int index)
         return ;
     }
 
+    unordered_map<char, bool> mapping;
     for(int i = index; i < str.size(); i++)
     {
-        if(i != index && str[i] == str[index]) continue; // Add this to make sure no duplicate only if the original is already sorted
+        if(mapping.find(str[i]) != mapping.end()) continue;
+
+        mapping[str[i]] = true;
         swap(str[i], str[index]);
         getPermutation(str, index + 1);
         swap(str[i], str[index]);
