@@ -34,10 +34,10 @@ void traverseList(Node* &head)
     Node* temp = head;
     while(temp != nullptr)
     {
-        cout << temp -> data << " ";
+        cout << temp -> data << " -> ";
         temp = temp -> next;
     }
-    cout << endl;
+    cout << "NULL" << endl;
 }
 
 void insertAtTail(Node* &head, Node* &tail, int data)
