@@ -189,6 +189,19 @@ void deleteFromPosition(Node* &head, Node* &tail, int index)
     }
 }
 
+bool searchTarget(Node* &head, int target)
+{
+    Node* temp = head;
+
+    while(temp != nullptr)
+    {
+        if(temp -> data == target) return true;
+        temp = temp -> next;
+    }
+
+    return false;
+}
+
 int main()
 {
     Node* head = nullptr;
@@ -255,6 +268,11 @@ int main()
     // cout << "Length = " << lengthLL(head) << endl;
  
     // cout << "Head = " << head -> data << " Tail = " << tail -> data << endl;
+    if(searchTarget(head, 40))
+    {
+        cout << "Target is present in linked list" << endl;
+    }
+    else cout << "Target is not present in linked list" << endl;
 
     return 0;
 }
