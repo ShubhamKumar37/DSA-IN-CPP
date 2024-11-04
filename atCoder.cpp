@@ -1,31 +1,46 @@
-int nums ;
-cin >> nums;
+#include <iostream>
+#include <vector>
+using namespace std;
 
+int getMaximumPartitions(const vector<int>& performance) {
+    int n = performance.size();
+    int partitions = 0;
+    int currentAND = -1;  // Start with all bits set (binary 111...111)
 
+    for (int i = 0; i < n; ++i) {
+        // Cumulative AND with the current element
+        currentAND &= performance[i];
 
-for(int i = 0; i < nums; i++)
-{
-    int n, k;
-    cin >> n >> k;
-    vector<int> arr;
-    for(int i = 0; i < n; i++)
-    {
-        int ele;
-        cin >> ele;
-        arr.push_back(ele);
+        // If currentAND becomes 0, mark a partition here
+        if (currentAND == 0) {
+            // Update the print statement to show where the partition ends
+            cout << "Partition found ending at index " << i << " with performance value = " << performance[i] << endl;
+            partitions++;       // Partition found, increase count
+            currentAND = -1;    // Reset currentAND to start a new partition
+        }
     }
 
-    // Actual code start //
+    // Ensure the last partition is counted if there are remaining elements
+    if (currentAND != -1) {
+        partitions++;  // Count the last partition even if AND isn't 0
+    }
 
-    k = (k % n);
+    return partitions;
+}
 
-    reverse(arr.begin(), arr.end());
-    reverse(arr.begin(), arr.begin() + k);
-    reverse(arr.begin() + k, arr.end());
+int main() {
+    int n;
+    cout << "Enter number of components: ";
+    cin >> n;
 
-    for(auto i : arr) cout << i << " ";
-    cout << endl;
+    vector<int> performance(n);
+    cout << "Enter performance values:\n";
+    for (int i = 0; i < n; ++i) {
+        cin >> performance[i];
+    }
 
-    // Actual code end //
+    int maxPartitions = getMaximumPartitions(performance);
+    cout << "Maximum number of partitions: " << maxPartitions << endl;
 
+    return 0;
 }
