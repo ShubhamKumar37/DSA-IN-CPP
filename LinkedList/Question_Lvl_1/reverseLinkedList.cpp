@@ -13,7 +13,7 @@ ListNode *reverseList(ListNode *head)
     // return reverse(head, nullptr, head);
     ListNode* curr = head;
     ListNode* forward = head -> next;
-    ListNode* prev = null;
+    ListNode* prev = nullptr;
 
     while(curr != nullptr)
     {
