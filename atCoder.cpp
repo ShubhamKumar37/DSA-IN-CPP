@@ -1,46 +1,66 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
+
 using namespace std;
 
-int getMaximumPartitions(const vector<int>& performance) {
-    int n = performance.size();
-    int partitions = 0;
-    int currentAND = -1;  // Start with all bits set (binary 111...111)
+// Function to check if a number is a power of two
+bool isPowerOfTwo(int x) {
+    return x > 0 && (x & (x - 1)) == 0;
+}
 
-    for (int i = 0; i < n; ++i) {
-        // Cumulative AND with the current element
-        currentAND &= performance[i];
+// Function to calculate the fallback sum
+int fallbackSum(int n) {
+    int sum = 0;
+    for (int i = 1; i <= n; ++i) {
+        sum += (i ^ (n - i + 1));
+    }
+    return sum;
+}
 
-        // If currentAND becomes 0, mark a partition here
-        if (currentAND == 0) {
-            // Update the print statement to show where the partition ends
-            cout << "Partition found ending at index " << i << " with performance value = " << performance[i] << endl;
-            partitions++;       // Partition found, increase count
-            currentAND = -1;    // Reset currentAND to start a new partition
+// Recursive function to find the optimal permutation
+bool solve(int index, int n, vector<int>& p, vector<bool>& used) {
+    if (index > n) {
+        return true; // Base case: permutation complete
+    }
+
+    for (int x = 1; x <= n; ++x) {
+        if (!used[x] && isPowerOfTwo(x ^ index)) {
+            p[index] = x;
+            used[x] = true;
+            if (solve(index + 1, n, p, used)) {
+                return true;
+            }
+
+            // Backtracking step
+            used[x] = false;
+            p[index] = 0;
         }
     }
+    return false; // No valid assignment found
+}
 
-    // Ensure the last partition is counted if there are remaining elements
-    if (currentAND != -1) {
-        partitions++;  // Count the last partition even if AND isn't 0
+int optimalPermutationSum(int n) {
+    vector<int> p(n + 1, 0); // Permutation array (1-indexed)
+    vector<bool> used(n + 1, false); // Tracks used numbers
+
+    // Start solving from the first index
+    if (!solve(1, n, p, used)) {
+        return fallbackSum(n);
     }
 
-    return partitions;
+    // Calculate the result for the valid permutation
+    int result = 0;
+    for (int i = 1; i <= n; ++i) {
+        result += (p[i] ^ i);
+    }
+
+    return result;
 }
 
 int main() {
     int n;
-    cout << "Enter number of components: ";
     cin >> n;
-
-    vector<int> performance(n);
-    cout << "Enter performance values:\n";
-    for (int i = 0; i < n; ++i) {
-        cin >> performance[i];
-    }
-
-    int maxPartitions = getMaximumPartitions(performance);
-    cout << "Maximum number of partitions: " << maxPartitions << endl;
-
+    cout << optimalPermutationSum(n) << endl;
     return 0;
 }
