@@ -40,7 +40,7 @@ int getLongestSuffPre(string &str)
 
 int main()
 {
-    string str = "ddbbbbcddd";
+    string str = "bbbbcddd";
 
     cout << "Longest common suffix and prefix = " << getLongestSuffPre(str) << endl;
 
