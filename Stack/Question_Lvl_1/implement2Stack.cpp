@@ -71,13 +71,35 @@ public:
     
     bool isFull()
     {
-        return abs(ind1 - ind2) == 1;
+        return (ind1 + 1) == ind2;
     }
+
+    void printStack() 
+    {
+        for(int i = 0; i < size; i++)
+        {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+
 };
 
 int main()
 {
     Stack s(4);
+    s.push1(1);
+    s.push2(2);
+    s.push1(3);
+    s.push1(3);
+    s.push1(3);
+    s.push1(3);
+    s.push1(3);
+    // s.pop2();
+    // s.pop2();
+    cout << s.empty() << endl;
+    cout << s.isFull() << endl;
+    s.printStack();
 
     return 0;
 }
