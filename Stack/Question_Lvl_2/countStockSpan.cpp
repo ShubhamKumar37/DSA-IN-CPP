@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<int> getStockSpan(vector<int> &arr)
+vector<int> getStockSpan1(vector<int> &arr)
 {
     stack<int> s;
     vector<int> ans;
@@ -25,10 +25,32 @@ vector<int> getStockSpan(vector<int> &arr)
     return ans;
 }
 
+vector<int> getStockSpan2(vector<int> &arr)
+{
+    stack<pair<int, int>> s;
+    vector<int> ans;
+
+    for(int i = 0; i < arr.size(); i++)
+    {
+        int span = 1;
+        while(!s.empty() && s.top().first <= arr[i])
+        {
+            span += s.top().second;
+            s.pop();
+        }
+
+        s.push(pair<int, int>{arr[i], span});
+        ans.push_back(span);
+    }
+
+    return ans;
+}
+
 int main()
 {
     vector<int> arr = {100, 80, 60, 70, 60, 75, 85};
-    vector<int> ans = getStockSpan(arr);
+    vector<int> ans = getStockSpan1(arr);
+    // vector<int> ans = getStockSpan2(arr);
 
     for(auto i : ans) cout << i << " ";
     cout << endl;
