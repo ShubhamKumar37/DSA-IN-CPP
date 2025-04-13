@@ -2,109 +2,95 @@
 #include <vector>
 using namespace std;
 
-class UnionFind {
-private:
-    vector<int> parent;
-    vector<int> size;
-    vector<int> maxNode;
-    long totalSum;
+// Class representing a graph using adjacency list
+class Graph {
+    int vertices; // Number of vertices in the graph
+    vector<vector<int>> adj; // Adjacency list representation
+
+    // Utility function to find bridges in the graph
+    void bridgeUtil(int u, vector<bool>& visited, int parent[], int disc[], int low[], int& time);
 
 public:
-    UnionFind(int n) {
-        parent.resize(n + 1);
-        size.resize(n + 1, 1);
-        maxNode.resize(n + 1);
-        totalSum = 0;
-        
-        // Initialize each node as its own parent
-        for (int i = 1; i <= n; i++) {
-            parent[i] = i;
-            maxNode[i] = i;
-            totalSum += i;  // Initially, each node is its own network
-        }
-    }
-
-    int find(int x) {
-        if (parent[x] != x) {
-            parent[x] = find(parent[x]);  // Path compression
-        }
-        return parent[x];
-    }
-
-    void unite(int x, int y) {
-        int rootX = find(x);
-        int rootY = find(y);
-        
-        if (rootX == rootY) return;  // Already in same network
-        
-        // Union by size
-        if (size[rootX] < size[rootY]) {
-            swap(rootX, rootY);
-        }
-        
-        // Update total sum by removing old max values
-        totalSum -= maxNode[rootX];
-        totalSum -= maxNode[rootY];
-        
-        // Merge smaller set into larger set
-        parent[rootY] = rootX;
-        size[rootX] += size[rootY];
-        maxNode[rootX] = max(maxNode[rootX], maxNode[rootY]);
-        
-        // Add new max value to total sum
-        totalSum += maxNode[rootX];
-    }
-
-    long getTotalSum() {
-        return totalSum;
-    }
+    // Constructor to initialize the graph with a given number of vertices
+    Graph(int v);
+    
+    // Function to add an edge between two vertices
+    void addEdge(int u, int v);
+    
+    // Function to find and print all bridges in the graph
+    void findBridges();
 };
 
-vector<long> networkSums(int c_nodes, vector<int> c_from, vector<int> c_to) {
-    UnionFind uf(c_nodes);
-    vector<long> result;
-    
-    for (int i = 0; i < c_from.size(); i++) {
-        uf.unite(c_from[i], c_to[i]);
-        result.push_back(uf.getTotalSum());
+// Constructor implementation
+Graph::Graph(int v) {
+    this->vertices = v; // Set the number of vertices
+    adj.resize(v); // Resize the adjacency list to hold 'v' vertices
+}
+
+// Function to add an edge between vertices u and v
+void Graph::addEdge(int u, int v) {
+    adj[u].push_back(v); // Add v to u's list
+    adj[v].push_back(u); // Add u to v's list (undirected graph)
+}
+
+// Utility function to perform DFS and find bridges
+void Graph::bridgeUtil(int u, vector<bool>& visited, int parent[], int disc[], int low[], int& time) {
+    visited[u] = true; // Mark the current node as visited
+    disc[u] = low[u] = ++time; // Initialize discovery time and low value
+
+    // Explore all adjacent vertices
+    for (int v : adj[u]) {
+        if (!visited[v]) { // If v is not visited
+            parent[v] = u; // Set parent of v
+            bridgeUtil(v, visited, parent, disc, low, time); // Recur for DFS
+
+            // Check if the subtree rooted at v has a connection back to one of the ancestors of u
+            low[u] = min(low[u], low[v]);
+
+            // If the lowest vertex reachable from subtree under v is below u in DFS tree, then u-v is a bridge
+            if (low[v] > disc[u]) {
+                cout << "Bridge found: " << u << " - " << v << endl; // Print the bridge
+            }
+        } else if (v != parent[u]) { // Update low value of u for parent function calls
+            low[u] = min(low[u], disc[v]);
+        }
     }
-    
-    return result;
+}
+
+// Function to find all bridges in the graph
+void Graph::findBridges() {
+    vector<bool> visited(vertices, false); // Mark all vertices as not visited
+    int disc[vertices], low[vertices], parent[vertices]; // Arrays to store discovery times, low values, and parent vertices
+    int time = 0; // Initialize time
+
+    // Initialize parent and visited arrays
+    for (int i = 0; i < vertices; i++) {
+        parent[i] = -1; // No parent for root
+        visited[i] = false; // Mark all vertices as not visited
+    }
+
+    // Call the recursive helper function to find bridges for all vertices
+    for (int i = 0; i < vertices; i++) {
+        if (!visited[i]) {
+            bridgeUtil(i, visited, parent, disc, low, time); // Call the utility function
+        }
+    }
 }
 
 int main() {
-    // Test Case 1
-    int nodes1 = 5;
-    vector<int> from1 = {1, 2, 1, 4};
-    vector<int> to1 = {2, 3, 3, 5};
-    vector<long> result1 = networkSums(nodes1, from1, to1);
-    cout << "Test Case 1: ";
-    for (long sum : result1) {
-        cout << sum << " ";
-    }
-    cout << endl;  // Expected: 14 12 12 8
-    
-    // Test Case 2
-    int nodes2 = 1;
-    vector<int> from2 = {1};
-    vector<int> to2 = {1};
-    vector<long> result2 = networkSums(nodes2, from2, to2);
-    cout << "Test Case 2: ";
-    for (long sum : result2) {
-        cout << sum << " ";
-    }
-    cout << endl;  // Expected: 1
-    
-    // Test Case 3
-    int nodes3 = 2;
-    vector<int> from3 = {1, 2};
-    vector<int> to3 = {2, 1};
-    vector<long> result3 = networkSums(nodes3, from3, to3);
-    cout << "Test Case 3: ";
-    for (long sum : result3) {
-        cout << sum << " ";
-    }
-    cout << endl;  // Expected: 2 2
-    
-    return 0;
+    Graph g(6); // Create a graph with 6 vertices
+
+    // Adding edges to the graph to ensure there are bridges
+    g.addEdge(0, 1);
+    g.addEdge(1, 2);
+    g.addEdge(2, 0);
+    g.addEdge(1, 3);
+    g.addEdge(3, 4);
+    g.addEdge(4, 5); // Adding a bridge edge
+    g.addEdge(5, 3); // Adding a bridge edge
+
+    cout << "Bridges in the graph:\n"; // Output message
+    g.findBridges(); // Find and print bridges
+
+    return 0; // Exit the program
 }
