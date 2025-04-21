@@ -29,7 +29,8 @@ long long findMaxHeight(vector<long long> &arr, long long n, long long k)
             ans = mid;
             s = mid + 1;
         }
-        else e = mid - 1;
+        else
+            e = mid - 1;
 
         mid = (s + ((e - s) >> 1));
     }
