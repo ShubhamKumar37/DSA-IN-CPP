@@ -15,8 +15,14 @@ vector<int> getAfterCollision(vector<int> &arr)
         {
             if(i < 0) 
             {
+                // Current element will colloid until the stack is empty or it get explode itself
                 while(!s.empty() && s.top() > 0 && s.top() < abs(i)) s.pop();
+
+                // Current element will explode with s.top() if both are equal 
                 if(!s.empty() && s.top() > 0 && s.top() == abs(i)) s.pop();
+
+                // We can only current element only if the stack is empty - means all element exploded
+                // Or the s.top() is also going in same direction in -ve
                 else if(s.empty() || s.top() < 0) s.push(i);
             }
             else s.push(i);
