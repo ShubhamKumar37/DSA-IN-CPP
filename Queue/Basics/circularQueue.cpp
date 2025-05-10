@@ -132,7 +132,7 @@ void Circular_Queue :: push(int val)
         arr[++front] = val;
         rear = 0;
     }
-    else if(rear + 1 == size)
+    else if(rear + 1 == size && front != 0)
     {
         rear = 0;
         arr[rear] = val;
