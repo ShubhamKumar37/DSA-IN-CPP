@@ -1,0 +1,1 @@
+q.empty() ? '#' : q.front()
