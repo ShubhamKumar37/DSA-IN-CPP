@@ -94,3 +94,55 @@ class Solution {
         return ans.first;
     }
 };
+
+/* Structure for tree and linked list
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node()
+        : data(0)
+        , left(NULL)
+        , right(NULL) {}
+
+    Node(int x)
+        : data(x)
+        , left(NULL)
+        , right(NULL) {}
+};
+ */
+
+// This function should return head to the DLL
+class Solution {
+  public:
+    Node* head = nullptr;
+    Node* tail = nullptr;
+    
+    void createDll(Node* root)
+    {
+        if(root == nullptr) return ;
+        
+        createDll(root -> left);
+        if(head == nullptr) head = root;
+        if(tail == nullptr) tail = root;
+        if(tail != root) 
+        {
+            tail -> right = root;
+            root -> left = tail;
+        }
+        tail = root;
+        
+        createDll(root -> right);
+    }
+    
+    Node* bToDLL(Node* root) {
+        // code here
+        createDll(root);
+        if(head != nullptr) head -> left = nullptr;
+        if(tail != nullptr) tail -> right = nullptr;
+        return head;
+        
+    }
+};
