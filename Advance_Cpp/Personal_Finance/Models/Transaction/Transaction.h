@@ -2,16 +2,18 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
+#include "../User/User.h"
+
 
 class Transaction{
     public:
     double cost;
-    string userName;
+    User user;
     vector<string> tags;
     time_t now = time(nullptr);
     static int id = 0;
 
-    Transaction(double , string, vector<string>);
+    Transaction(double cost, User user, vector<string> tags);
 
     string getTime();
     string getTransaction();

@@ -5,10 +5,10 @@ string Transaction :: getTime()
     return ctime(&now);
 }
 
-Transaction ::  Transaction(double cost, string useName, vector<string> tags)
+Transaction ::  Transaction(double cost, User user, vector<string> tags)
 {
     this -> cost = cost;
-    this -> userName = userName;
+    this -> user = user;
     this -> tags = tags;
     this -> id = id + 1;
 }
@@ -17,7 +17,7 @@ string Transaction :: getTransaction()
 {
     string ans = "";
 
-    ans = curr.userName + "  -  " + curr.cost + "  -  " + curr.getTime + "  -  ";
+    ans = curr.user.name + "  -  " + curr.cost + "  -  " + curr.getTime + "  -  ";
     for(int j = 0; j < tags.size(); j++) 
         ans = ans + curr.tags[j] + (j + 1 == curr.tags.size() ? "" : "  -  ");
     
