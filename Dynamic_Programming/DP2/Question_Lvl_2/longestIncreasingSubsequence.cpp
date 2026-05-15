@@ -56,3 +56,57 @@ public:
         // return solveRec(nums, 0, -1);
     }
 };
+
+class Solution {
+public:
+
+    void levelArr(vector<int> &arr, int j)
+    {
+        int temp = -1;
+        
+        for(int i = 0; i < arr.size(); i++)
+        {
+            if(arr[i] > j)
+            {
+                arr[i] = j;
+                return ;
+            }
+        }
+        
+    }
+    
+    // int lis(vector<int>& arr) {
+    //     // code here
+    //     vector<int> temp;
+        
+    //     for(int i = 0; i < arr.size(); i++)
+    //     {
+    //         if(!temp.empty() && arr[i] <= temp.back()) levelArr(temp, arr[i]);
+    //         else temp.push_back(arr[i]);
+    //     }
+        
+    //     return temp.size();
+    // }
+    
+    int lis(vector<int>& arr) {
+        // code here
+        vector<int> temp;
+        
+        for(int i = 0; i < arr.size(); i++)
+        {
+            if(temp.empty() || temp.back() < arr[i]) temp.push_back(arr[i]);
+            else
+            {
+                auto it = lower_bound(temp.begin(), temp.end(), arr[i]);
+                int index = it - temp.begin();
+                temp[index] = arr[i];
+            }
+        }
+        
+        return temp.size();
+    }
+
+    int lengthOfLIS(vector<int>& nums) {
+        return lis(nums);
+    }
+};
