@@ -1,6 +1,106 @@
 class Solution {
 public:
 
+    int solveRec(vector<int> &arr, int ind, int currSum, int sum)
+    {
+        if(currSum > sum) return -1;
+        if(ind >= arr.size()) return currSum;
+
+        int inc = solveRec(arr, ind + 1, currSum + arr[ind], sum);
+        int exc = solveRec(arr, ind + 1, currSum, sum);
+        return max(inc, exc);
+
+    }
+    int solveRecMem(vector<int> &arr, int ind, int currSum, int sum, vector<vector<int>> &dp)
+    {
+        if(currSum > sum) return -1;
+        if(ind >= arr.size()) return currSum;
+        if(dp[ind][currSum] != -1) return dp[ind][currSum];
+
+        int inc = solveRecMem(arr, ind + 1, currSum + arr[ind], sum, dp);
+        int exc = solveRecMem(arr, ind + 1, currSum, sum, dp);
+        return dp[ind][currSum] = max(inc, exc);
+
+    }
+
+    int solveTab(vector<int> &arr, int halfSum)
+    {
+        int n = arr.size();
+        vector<vector<int>> dp(n + 1, vector<int>(halfSum + 1, -1));
+
+        for(int i = 0; i <= halfSum; i++) dp[n][i] = i;
+
+        for(int i = n - 1; i >= 0; i--)
+        {
+            for(int j = halfSum; j >= 0; j--)
+            {
+                int inc = j + arr[i] <= halfSum ? dp[i + 1][j + arr[i]] : -1;
+                int exc = dp[i + 1][j];
+                dp[i][j] = max(inc, exc);
+            }
+        }
+        return dp[0][0];
+    }
+    int solveTabOp(vector<int> &arr, int halfSum)
+    {
+        int n = arr.size();
+        
+        vector<int> curr(halfSum + 1, -1);
+        vector<int> next(halfSum + 1, -1);
+
+        for(int i = 0; i <= halfSum; i++) next[i] = i;
+
+        for(int i = n - 1; i >= 0; i--)
+        {
+            for(int j = halfSum; j >= 0; j--)
+            {
+                int inc = j + arr[i] <= halfSum ? next[j + arr[i]] : -1;
+                int exc = next[j];
+                curr[j] = max(inc, exc);
+            }
+            next = curr;
+        }
+        return curr[0];
+    }
+    int solveTabOp2(vector<int> &arr, int halfSum)
+    {
+        int n = arr.size();
+
+        // vector<int> curr(halfSum + 1, -1);
+        vector<int> next(halfSum + 1, -1);
+
+        for(int i = 0; i <= halfSum; i++) next[i] = i;
+
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j <= halfSum; j++)
+            {
+                int inc = j + arr[i] <= halfSum ? next[j + arr[i]] : -1;
+                int exc = next[j];
+                next[j] = max(inc, exc);
+            }
+        }
+        return next[0];
+    }
+
+    int lastStoneWeightII(vector<int>& stones) {
+        int sum = accumulate(stones.begin(), stones.end(), 0);
+        int halfSum = (sum >> 1);
+        vector<vector<int>> dp(stones.size() + 1, vector<int>(halfSum + 1, -1));
+ 
+        int ans = solveTabOp2(stones, halfSum);
+        // int ans = solveTabOp(stones, halfSum);
+        // int ans = solveTab(stones, halfSum);
+        // int ans = solveRecMem(stones, 0, 0, halfSum, dp);
+        // int ans = solveRec(stones, 0, 0, halfSum);
+
+        return abs((sum - ans) - ans);
+    }
+};
+
+class Solution {
+public:
+
     int solveRec(vector<int> &arr, int ind, int val)
     {
         if(ind >= arr.size()) return val;
