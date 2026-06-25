@@ -60,14 +60,45 @@ class Graph{
 
             for(auto i : adjList[src]) if(!visited[i.first]) dfs(i.first);
         }
+
+        bool detectCycle()
+        {
+            queue<int> q;
+            vector<int> v(5, false);
+            vector<int> parent(5, -1);
+
+            q.push(0);
+            v[0] = true;
+
+            while(!q.empty())
+            {
+                int front = q.front();
+                q.pop();
+
+                for(auto i : adjList[front])
+                {
+                    if(v[i.first] && parent[front] == i.first) continue;
+                    else if(v[i.first]) return true;
+
+                    parent[i.first] = front;
+                    v[i.first] = true;
+                    q.push(i.first);
+                }
+            }
+
+            return false;
+        }
 };
+
+
+
 
 int main()
 {
     Graph g;
     g.addNodeGraph(0, 1, 1);
     g.addNodeGraph(0, 2, 1, 5);
-    g.addNodeGraph(2, 1, 1);
+    // g.addNodeGraph(2, 1, 1);
     g.addNodeGraph(2, 3, 1);
     g.addNodeGraph(3, 4, 1, 819);
 
@@ -77,6 +108,9 @@ int main()
     cout << endl;
 
     g.dfs(0);
+
+    if(g.detectCycle()) cout << "Cycle detected, opinion rejected" << endl;
+    else cout << "No cycle" << endl;
 
     return 0;
 }
